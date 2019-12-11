@@ -1,17 +1,14 @@
 package com.pholser.intcode;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import static java.util.stream.Collectors.*;
@@ -47,70 +44,13 @@ class IntcodeComputer {
         }
     }
 
-    void run() throws IOException, InterruptedException {
+    void run() throws InterruptedException {
         boolean running = true;
 
         while (running) {
-            String opcode = valueAt(pc);
-            switch (opcode) {
-                case "1":
-                    handleAdd();
-                    break;
-                case "2":
-                    handleMultiply();
-                    break;
-                case "3":
-                    handleInput();
-                    break;
-                case "4":
-                    handleOutput();
-                    break;
-                case "99":
-                    handleHalt();
-                    running = false;
-                    break;
-                default:
-                    throw new IllegalStateException(
-                        String.format(
-                            "Unrecognized opcode at pc %d: %s",
-                            pc,
-                            opcode));
-            }
+            Opcode opcode = new OpcodeParser().parse(valueAt(pc));
+            running = opcode.execute(this);
         }
-    }
-
-    private void handleAdd() {
-        BigInteger val1 =
-            new BigInteger(valueAt(addressAt(pc + 1)));
-        BigInteger val2 =
-            new BigInteger(valueAt(addressAt(pc + 2)));
-        BigInteger result = val1.add(val2);
-        putValueTo(addressAt(pc + 3), result);
-        pc += 4;
-    }
-
-    private void handleMultiply() {
-        BigInteger val1 =
-            new BigInteger(valueAt(addressAt(pc + 1)));
-        BigInteger val2 =
-            new BigInteger(valueAt(addressAt(pc + 2)));
-        BigInteger result = val1.multiply(val2);
-        putValueTo(addressAt(pc + 3), result);
-        pc += 4;
-    }
-
-    private void handleInput() throws IOException, InterruptedException {
-        putValueTo(addressAt(pc + 1), ioBuffer.take());
-        pc += 2;
-    }
-
-    private void handleOutput() throws InterruptedException {
-        ioBuffer.put(valueAt(addressAt(pc + 1)));
-        pc += 2;
-    }
-
-    private void handleHalt() {
-        // nothing to do
     }
 
     String valueAt(int address) {
@@ -125,8 +65,24 @@ class IntcodeComputer {
         return Integer.parseInt(valueAt(address));
     }
 
+    int pc() {
+        return pc;
+    }
+
+    void adjustPcBy(int delta) {
+        pc += delta;
+    }
+
     Queue<String> ioBuffer() {
         return new LinkedList<>(ioBuffer);
+    }
+
+    String takeInput() throws InterruptedException {
+        return ioBuffer.take();
+    }
+
+    void writeOutput(String value) throws InterruptedException {
+        ioBuffer.put(value);
     }
 
     private void clearMemory() {
