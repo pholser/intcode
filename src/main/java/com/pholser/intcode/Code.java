@@ -2,29 +2,33 @@ package com.pholser.intcode;
 
 enum Code {
     ADD(1, 3) {
-        @Override Opcode makeOpcode(ParameterModes modes) {
-            return new AddOpcode(modes);
+        @Override
+        Instruction makeOpcode(ParameterModes modes) {
+            return new AddInstruction(modes);
         }
     },
     MULTIPLY(2, 3) {
-        @Override Opcode makeOpcode(ParameterModes modes) {
-            return new MultiplyOpcode(modes);
+        @Override
+        Instruction makeOpcode(ParameterModes modes) {
+            return new MultiplyInstruction(modes);
         }
     },
     READ_INPUT_AND_STORE(3, 1) {
         @Override
-        Opcode makeOpcode(ParameterModes modes) {
-            return new ReadInputAndStoreOpcode(modes);
+        Instruction makeOpcode(ParameterModes modes) {
+            return new ReadInputAndStoreInstruction(modes);
         }
     },
     OUTPUT(4, 1) {
-        @Override Opcode makeOpcode(ParameterModes modes) {
-            return new OutputOpcode(modes);
+        @Override
+        Instruction makeOpcode(ParameterModes modes) {
+            return new OutputInstruction(modes);
         }
     },
     HALT(99, 0) {
-        @Override Opcode makeOpcode(ParameterModes modes) {
-            return new HaltOpcode(modes);
+        @Override
+        Instruction makeOpcode(ParameterModes modes) {
+            return new HaltInstruction(modes);
         }
     };
 
@@ -46,7 +50,7 @@ enum Code {
             "Unrecognized numeric opcode " + value);
     }
 
-    abstract Opcode makeOpcode(ParameterModes modes);
+    abstract Instruction makeOpcode(ParameterModes modes);
 
     int numberOfOperands() {
         return numberOfOperands;

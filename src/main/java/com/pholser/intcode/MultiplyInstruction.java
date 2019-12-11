@@ -2,8 +2,8 @@ package com.pholser.intcode;
 
 import java.math.BigInteger;
 
-class AddOpcode extends Opcode {
-    AddOpcode(ParameterModes modes) {
+class MultiplyInstruction extends Instruction {
+    MultiplyInstruction(ParameterModes modes) {
         super(modes);
     }
 
@@ -14,7 +14,7 @@ class AddOpcode extends Opcode {
         BigInteger val2 =
             new BigInteger(
                 computer.valueAt(computer.addressAt(computer.pc() + 2)));
-        BigInteger result = val1.add(val2);
+        BigInteger result = val1.multiply(val2);
         computer.putValueTo(computer.addressAt(computer.pc() + 3), result);
         computer.adjustPcBy(4);
 

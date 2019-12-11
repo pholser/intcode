@@ -1,7 +1,7 @@
 package com.pholser.intcode;
 
-public class HaltOpcode extends Opcode {
-    public HaltOpcode(ParameterModes modes) {
+public class HaltInstruction extends Instruction {
+    public HaltInstruction(ParameterModes modes) {
         super(modes);
     }
 

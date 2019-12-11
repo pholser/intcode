@@ -1,7 +1,7 @@
 package com.pholser.intcode;
 
-class OutputOpcode extends Opcode {
-    OutputOpcode(ParameterModes modes) {
+class OutputInstruction extends Instruction {
+    OutputInstruction(ParameterModes modes) {
         super(modes);
     }
 

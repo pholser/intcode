@@ -1,7 +1,7 @@
 package com.pholser.intcode;
 
-class ReadInputAndStoreOpcode extends Opcode {
-    ReadInputAndStoreOpcode(ParameterModes modes) {
+class ReadInputAndStoreInstruction extends Instruction {
+    ReadInputAndStoreInstruction(ParameterModes modes) {
         super(modes);
     }
 

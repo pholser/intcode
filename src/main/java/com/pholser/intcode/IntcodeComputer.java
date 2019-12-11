@@ -48,8 +48,8 @@ class IntcodeComputer {
         boolean running = true;
 
         while (running) {
-            Opcode opcode = new OpcodeParser().parse(valueAt(pc));
-            running = opcode.execute(this);
+            Instruction instruction = new OpcodeParser().parse(valueAt(pc));
+            running = instruction.execute(this);
         }
     }
 

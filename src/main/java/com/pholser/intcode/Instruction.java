@@ -1,9 +1,9 @@
 package com.pholser.intcode;
 
-abstract class Opcode {
+abstract class Instruction {
     private final ParameterModes modes;
 
-    protected Opcode(ParameterModes modes) {
+    protected Instruction(ParameterModes modes) {
         this.modes = modes;
     }
 

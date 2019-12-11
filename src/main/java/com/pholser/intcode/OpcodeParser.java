@@ -4,7 +4,7 @@ class OpcodeParser {
     private final ParameterModesParser parameterModesParser =
         new ParameterModesParser();
 
-    Opcode parse(String raw) {
+    Instruction parse(String raw) {
         int valueNumeric = Integer.parseInt(raw);
         int opcodeNumeric = valueNumeric % 100;
         int parameterModesNumeric = valueNumeric / 100;
