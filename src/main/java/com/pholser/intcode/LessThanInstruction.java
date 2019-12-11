@@ -2,21 +2,22 @@ package com.pholser.intcode;
 
 import java.math.BigInteger;
 
-class MultiplyInstruction extends Instruction {
-    MultiplyInstruction(ParameterModes modes, Opcode opcode) {
+import static com.pholser.intcode.ParameterMode.*;
+
+class LessThanInstruction extends Instruction {
+    LessThanInstruction(ParameterModes modes, Opcode opcode) {
         super(modes, opcode);
     }
 
     @Override boolean execute(IntcodeComputer computer) {
         BigInteger val1 =
-            new BigInteger(resolveParameter(computer, 0));
+            new BigInteger(resolveValueOperand(computer, 0));
         BigInteger val2 =
-            new BigInteger(resolveParameter(computer, 1));
-        BigInteger result = val1.multiply(val2);
-
+            new BigInteger(resolveValueOperand(computer, 1));
         computer.putValueTo(
-            Integer.parseInt(resolveParameter(computer, 2)),
-            result);
+            Integer.parseInt(resolveAddressOperand(computer, 2)),
+            val1.compareTo(val2) < 0 ? 1 : 0);
+
         advanceProgramCounter(computer);
 
         return true;
@@ -62,11 +63,10 @@ class MultiplyInstruction extends Instruction {
         String rawParameterValue =
             computer.valueAt(computer.pc() + parameterIndex + 1);
 
-        switch (modes().at(parameterIndex)) {
-            case POSITION:
-                return rawParameterValue;
-            default:
-                throw unsupportedParameterMode(parameterIndex);
+        if (modes().at(parameterIndex) == POSITION) {
+            return rawParameterValue;
         }
+
+        throw unsupportedParameterMode(parameterIndex);
     }
 }

@@ -8,18 +8,18 @@ import static com.pholser.intcode.ParameterMode.*;
 import static java.util.stream.Collectors.*;
 
 class ParameterModesParser {
-    ParameterModes parse(Code code, int parameterModesNumeric) {
+    ParameterModes parse(Opcode opcode, int parameterModesNumeric) {
         StringBuilder buffer = new StringBuilder();
         return new ParameterModes(
             Arrays.stream(
                 buffer.append(parameterModesNumeric)
                     .reverse()
                     .append(
-                        code.numberOfOperands() == 0
+                        opcode.numberOfOperands() == 0
                             ? ""
                             : Strings.repeat(
                                 POSITION.code(),
-                                code.numberOfOperands() - buffer.length()))
+                                opcode.numberOfOperands() - buffer.length()))
                     .toString()
                     .split(""))
                 .map(ParameterMode::parse)

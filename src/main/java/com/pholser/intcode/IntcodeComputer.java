@@ -73,6 +73,10 @@ class IntcodeComputer {
         pc += delta;
     }
 
+    void jumpTo(int newPc) {
+        pc = newPc;
+    }
+
     Queue<String> ioBuffer() {
         return new LinkedList<>(ioBuffer);
     }

@@ -9,10 +9,10 @@ class OpcodeParser {
         int opcodeNumeric = valueNumeric % 100;
         int parameterModesNumeric = valueNumeric / 100;
 
-        Code code = Code.forNumeric(opcodeNumeric);
+        Opcode opcode = Opcode.forNumeric(opcodeNumeric);
         ParameterModes modes =
-            parameterModesParser.parse(code, parameterModesNumeric);
+            parameterModesParser.parse(opcode, parameterModesNumeric);
 
-        return code.makeOpcode(modes);
+        return opcode.makeOpcode(modes);
     }
 }
