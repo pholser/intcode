@@ -12,7 +12,7 @@ class Day2Part1Test {
 
         computer.loadProgram(
             new FileInputStream(
-                "src/main/resources/1202-program-alarm.intcode"));
+                "src/test/resources/1202-program-alarm.intcode"));
         computer.putValueTo(1, "12");
         computer.run();
 

@@ -17,7 +17,7 @@ class Day5Ex2Test {
 
         ioBuffer.put("0");
         computer.loadProgram(
-            new FileInputStream("src/main/resources/day5-ex2.intcode"));
+            new FileInputStream("src/test/resources/day5-ex2.intcode"));
 
         computer.run();
 
@@ -31,7 +31,7 @@ class Day5Ex2Test {
 
         ioBuffer.put("1");
         computer.loadProgram(
-            new FileInputStream("src/main/resources/day5-ex2.intcode"));
+            new FileInputStream("src/test/resources/day5-ex2.intcode"));
 
         computer.run();
 

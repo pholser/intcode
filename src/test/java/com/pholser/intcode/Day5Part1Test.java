@@ -18,7 +18,7 @@ class Day5Part1Test {
 
         ioBuffer.put("1");
         computer.loadProgram(
-            new FileInputStream("src/main/resources/day5-input.intcode"));
+            new FileInputStream("src/test/resources/day5-input.intcode"));
 
         computer.run();
 

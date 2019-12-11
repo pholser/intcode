@@ -17,7 +17,7 @@ class Day2Part2Test {
 
                 computer.loadProgram(
                     new FileInputStream(
-                        "src/main/resources/1202-program-alarm.intcode"));
+                        "src/test/resources/1202-program-alarm.intcode"));
                 computer.putValueTo(1, String.valueOf(noun));
                 computer.putValueTo(2, String.valueOf(verb));
 
