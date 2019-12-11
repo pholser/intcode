@@ -1,18 +1,19 @@
 package com.pholser.intcode;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import org.junit.jupiter.api.Test;
+
 import java.io.FileInputStream;
 
-public class Day2Part2 {
-    public static void main(String[] args) throws Exception {
+import static org.junit.jupiter.api.Assertions.*;
+
+class Day2Part2Test {
+    @Test
+    void part2() throws Exception {
+        int answer = Integer.MIN_VALUE;
+
         for (int noun = 0; noun < 100; ++noun) {
             for (int verb = 0; verb < 100; ++verb) {
-                byte[] buffer = new byte[10000];
-                ByteArrayInputStream bytesIn = new ByteArrayInputStream(buffer);
-                ByteArrayOutputStream bytesOut = new ByteArrayOutputStream(10000);
-                IntcodeComputer computer =
-                    new IntcodeComputer(1000, bytesIn, bytesOut);
+                IntcodeComputer computer = new IntcodeComputer(1000);
 
                 computer.loadProgram(
                     new FileInputStream(
@@ -24,10 +25,12 @@ public class Day2Part2 {
 
                 String result = computer.valueAt(0);
                 if ("19690720".equals(result)) {
-                    System.out.println(100 * noun + verb);
+                    answer = 100 * noun + verb;
                     break;
                 }
             }
         }
+
+        assertEquals(4925, answer);
     }
 }

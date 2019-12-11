@@ -4,28 +4,32 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Queue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static java.util.stream.Collectors.*;
 
 class IntcodeComputer {
     private final String[] memory;
-    private final BufferedReader in;
-    private final PrintWriter out;
+    private final BlockingQueue<String> ioBuffer;
 
     private int pc;
     private int relativeBase;
 
-    IntcodeComputer(int initialMemorySize, InputStream in, OutputStream out) {
+    IntcodeComputer(int initialMemorySize) {
+        this(initialMemorySize, new LinkedBlockingQueue<>());
+    }
+
+    IntcodeComputer(int initialMemorySize, BlockingQueue<String> ioBuffer) {
         this.memory = new String[initialMemorySize];
-        this.in = new BufferedReader(new InputStreamReader(in));
-        this.out = new PrintWriter(new OutputStreamWriter(out), true);
+        this.ioBuffer = ioBuffer;
     }
 
     void loadProgram(InputStream programIn) {
@@ -43,7 +47,7 @@ class IntcodeComputer {
         }
     }
 
-    void run() {
+    void run() throws IOException, InterruptedException {
         boolean running = true;
 
         while (running) {
@@ -54,6 +58,12 @@ class IntcodeComputer {
                     break;
                 case "2":
                     handleMultiply();
+                    break;
+                case "3":
+                    handleInput();
+                    break;
+                case "4":
+                    handleOutput();
                     break;
                 case "99":
                     handleHalt();
@@ -89,13 +99,18 @@ class IntcodeComputer {
         pc += 4;
     }
 
+    private void handleInput() throws IOException, InterruptedException {
+        putValueTo(addressAt(pc + 1), ioBuffer.take());
+        pc += 2;
+    }
+
+    private void handleOutput() throws InterruptedException {
+        ioBuffer.put(valueAt(addressAt(pc + 1)));
+        pc += 2;
+    }
+
     private void handleHalt() {
-        try {
-            in.close();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // nothing to do
     }
 
     String valueAt(int address) {
@@ -108,6 +123,10 @@ class IntcodeComputer {
 
     int addressAt(int address) {
         return Integer.parseInt(valueAt(address));
+    }
+
+    Queue<String> ioBuffer() {
+        return new LinkedList<>(ioBuffer);
     }
 
     private void clearMemory() {
