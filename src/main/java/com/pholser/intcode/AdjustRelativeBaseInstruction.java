@@ -1,15 +1,14 @@
 package com.pholser.intcode;
 
-class OutputInstruction extends Instruction {
-    OutputInstruction(ParameterModes modes, Opcode opcode) {
+class AdjustRelativeBaseInstruction extends Instruction {
+    AdjustRelativeBaseInstruction(ParameterModes modes, Opcode opcode) {
         super(modes, opcode);
     }
 
-    @Override boolean execute(IntcodeComputer computer)
-        throws InterruptedException {
+    @Override boolean execute(IntcodeComputer computer) {
+        int delta = Integer.parseInt(resolveParameter(computer, 0));
 
-        computer.writeOutput(
-            resolveParameter(computer, 0));
+        computer.adjustRelativeBaseBy(delta);
         advanceProgramCounter(computer);
 
         return true;

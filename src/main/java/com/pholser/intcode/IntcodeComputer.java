@@ -90,6 +90,14 @@ class IntcodeComputer implements Runnable {
         pc = newPc;
     }
 
+    int relativeBase() {
+        return relativeBase;
+    }
+
+    void adjustRelativeBaseBy(int delta) {
+        relativeBase += delta;
+    }
+
     Queue<String> inBuffer() {
         return new LinkedList<>(inBuffer);
     }
@@ -107,6 +115,6 @@ class IntcodeComputer implements Runnable {
     }
 
     private void clearMemory() {
-        Arrays.fill(memory, null);
+        Arrays.fill(memory, "0");
     }
 }

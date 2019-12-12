@@ -2,7 +2,8 @@ package com.pholser.intcode;
 
 enum ParameterMode {
     POSITION("0"),
-    IMMEDIATE("1");
+    IMMEDIATE("1"),
+    RELATIVE("2");
 
     private final String code;
 

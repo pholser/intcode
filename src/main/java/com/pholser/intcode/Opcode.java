@@ -41,6 +41,12 @@ enum Opcode {
             return new EqualsInstruction(modes, this);
         }
     },
+    ADJUST_RELATIVE_BASE(9, 1) {
+        @Override
+        Instruction makeOpcode(ParameterModes modes) {
+            return new AdjustRelativeBaseInstruction(modes, this);
+        }
+    },
     HALT(99, 0) {
         @Override Instruction makeOpcode(ParameterModes modes) {
             return new HaltInstruction(modes, this);
@@ -67,7 +73,7 @@ enum Opcode {
 
     abstract Instruction makeOpcode(ParameterModes modes);
 
-    int numberOfOperands() {
+    final int numberOfOperands() {
         return numberOfOperands;
     }
 }
