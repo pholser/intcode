@@ -11,10 +11,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Day5Part2Test {
     @Test
-    void part1() throws Exception {
+    void part2() throws Exception {
         BlockingQueue<String> ioBuffer = new LinkedBlockingQueue<>();
-        IntcodeComputer computer =
-            new IntcodeComputer(10000, ioBuffer);
+        IntcodeComputer computer = new IntcodeComputer(10000, ioBuffer);
 
         ioBuffer.put("5");
         computer.loadProgram(
@@ -22,6 +21,6 @@ class Day5Part2Test {
 
         computer.run();
 
-        assertEquals(singletonList("11430197"), computer.ioBuffer());
+        assertEquals(singletonList("11430197"), computer.inBuffer());
     }
 }

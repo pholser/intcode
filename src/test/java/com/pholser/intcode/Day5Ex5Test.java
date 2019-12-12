@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Day5Ex5Test {
     @Test void eight() throws Exception {
         BlockingQueue<String> ioBuffer = new LinkedBlockingQueue<>();
-        IntcodeComputer computer =
-            new IntcodeComputer(10000, ioBuffer);
+        IntcodeComputer computer = new IntcodeComputer(10000, ioBuffer);
 
         ioBuffer.put("8");
         computer.loadProgram(
@@ -21,13 +20,12 @@ class Day5Ex5Test {
 
         computer.run();
 
-        assertEquals(singletonList("1"), computer.ioBuffer());
+        assertEquals(singletonList("1"), computer.inBuffer());
     }
 
     @Test void notEight() throws Exception {
         BlockingQueue<String> ioBuffer = new LinkedBlockingQueue<>();
-        IntcodeComputer computer =
-            new IntcodeComputer(10000, ioBuffer);
+        IntcodeComputer computer = new IntcodeComputer(10000, ioBuffer);
 
         ioBuffer.put("9");
         computer.loadProgram(
@@ -35,6 +33,6 @@ class Day5Ex5Test {
 
         computer.run();
 
-        assertEquals(singletonList("0"), computer.ioBuffer());
+        assertEquals(singletonList("0"), computer.inBuffer());
     }
 }

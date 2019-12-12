@@ -13,9 +13,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import static java.util.stream.Collectors.*;
 
-class IntcodeComputer {
+class IntcodeComputer implements Runnable {
     private final String[] memory;
-    private final BlockingQueue<String> ioBuffer;
+    private final BlockingQueue<String> inBuffer;
+    private final BlockingQueue<String> outBuffer;
 
     private int pc;
     private int relativeBase;
@@ -24,9 +25,21 @@ class IntcodeComputer {
         this(initialMemorySize, new LinkedBlockingQueue<>());
     }
 
-    IntcodeComputer(int initialMemorySize, BlockingQueue<String> ioBuffer) {
+    IntcodeComputer(
+        int initialMemorySize,
+        BlockingQueue<String> ioBuffer) {
+
+        this(initialMemorySize, ioBuffer, ioBuffer);
+    }
+
+    IntcodeComputer(
+        int initialMemorySize,
+        BlockingQueue<String> inBuffer,
+        BlockingQueue<String> outBuffer) {
+
         this.memory = new String[initialMemorySize];
-        this.ioBuffer = ioBuffer;
+        this.inBuffer = inBuffer;
+        this.outBuffer = outBuffer;
     }
 
     void loadProgram(InputStream programIn) {
@@ -44,12 +57,16 @@ class IntcodeComputer {
         }
     }
 
-    void run() throws InterruptedException {
-        boolean running = true;
+    @Override public void run() {
+        try {
+            boolean running = true;
 
-        while (running) {
-            Instruction instruction = new OpcodeParser().parse(valueAt(pc));
-            running = instruction.execute(this);
+            while (running) {
+                Instruction instruction = new OpcodeParser().parse(valueAt(pc));
+                running = instruction.execute(this);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -59,10 +76,6 @@ class IntcodeComputer {
 
     void putValueTo(int address, Object value) {
         memory[address] = String.valueOf(value);
-    }
-
-    int addressAt(int address) {
-        return Integer.parseInt(valueAt(address));
     }
 
     int pc() {
@@ -77,16 +90,20 @@ class IntcodeComputer {
         pc = newPc;
     }
 
-    Queue<String> ioBuffer() {
-        return new LinkedList<>(ioBuffer);
+    Queue<String> inBuffer() {
+        return new LinkedList<>(inBuffer);
+    }
+
+    Queue<String> outBuffer() {
+        return new LinkedList<>(outBuffer);
     }
 
     String takeInput() throws InterruptedException {
-        return ioBuffer.take();
+        return inBuffer.take();
     }
 
     void writeOutput(String value) throws InterruptedException {
-        ioBuffer.put(value);
+        outBuffer.put(value);
     }
 
     private void clearMemory() {

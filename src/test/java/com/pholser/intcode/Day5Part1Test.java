@@ -13,8 +13,7 @@ class Day5Part1Test {
     @Test
     void part1() throws Exception {
         BlockingQueue<String> ioBuffer = new LinkedBlockingQueue<>();
-        IntcodeComputer computer =
-            new IntcodeComputer(10000, ioBuffer);
+        IntcodeComputer computer = new IntcodeComputer(10000, ioBuffer);
 
         ioBuffer.put("1");
         computer.loadProgram(
@@ -25,6 +24,6 @@ class Day5Part1Test {
         assertEquals(
             Arrays.asList(
                 "0", "0", "0", "0", "0", "0", "0", "0", "0", "15426686"),
-            computer.ioBuffer());
+            computer.inBuffer());
     }
 }

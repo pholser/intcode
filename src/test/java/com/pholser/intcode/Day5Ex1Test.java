@@ -12,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Day5Ex1Test {
     @Test void canPrintItsInput() throws Exception {
         BlockingQueue<String> ioBuffer = new LinkedBlockingQueue<>();
-        IntcodeComputer computer =
-            new IntcodeComputer(10000, ioBuffer);
+        IntcodeComputer computer = new IntcodeComputer(10000, ioBuffer);
 
         ioBuffer.put("112121");
         computer.loadProgram(
@@ -21,6 +20,6 @@ class Day5Ex1Test {
 
         computer.run();
 
-        assertEquals(singletonList("112121"), computer.ioBuffer());
+        assertEquals(singletonList("112121"), computer.inBuffer());
     }
 }
