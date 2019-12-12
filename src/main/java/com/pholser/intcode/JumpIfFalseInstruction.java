@@ -48,6 +48,10 @@ class JumpIfFalseInstruction extends Instruction {
                     convertToAddress(rawParameterValue));
             case IMMEDIATE:
                 return rawParameterValue;
+            case RELATIVE:
+                return computer.valueAt(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
             default:
                 throw unsupportedParameterMode(parameterIndex);
         }

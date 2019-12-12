@@ -2,7 +2,6 @@ package com.pholser.intcode;
 
 import java.math.BigInteger;
 
-import static com.pholser.intcode.ParameterMode.*;
 import static java.math.BigInteger.*;
 
 class JumpIfTrueInstruction extends Instruction {
@@ -20,6 +19,7 @@ class JumpIfTrueInstruction extends Instruction {
         } else {
             advanceProgramCounter(computer);
         }
+
         return true;
     }
 
@@ -49,6 +49,10 @@ class JumpIfTrueInstruction extends Instruction {
                     convertToAddress(rawParameterValue));
             case IMMEDIATE:
                 return rawParameterValue;
+            case RELATIVE:
+                return computer.valueAt(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
             default:
                 throw unsupportedParameterMode(parameterIndex);
         }

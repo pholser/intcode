@@ -20,7 +20,7 @@ class Day5Ex5Test {
 
         computer.run();
 
-        assertEquals(singletonList("1"), computer.inBuffer());
+        assertEquals(singletonList("1"), computer.outBuffer());
     }
 
     @Test void notEight() throws Exception {
@@ -33,6 +33,6 @@ class Day5Ex5Test {
 
         computer.run();
 
-        assertEquals(singletonList("0"), computer.inBuffer());
+        assertEquals(singletonList("0"), computer.outBuffer());
     }
 }

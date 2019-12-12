@@ -21,7 +21,7 @@ class Day5Ex4Test {
 
         computer.run();
 
-        assertEquals(singletonList("999"), computer.inBuffer());
+        assertEquals(singletonList("999"), computer.outBuffer());
     }
 
     @Test void eight() throws Exception {
@@ -34,7 +34,7 @@ class Day5Ex4Test {
 
         computer.run();
 
-        assertEquals(singletonList("1000"), computer.inBuffer());
+        assertEquals(singletonList("1000"), computer.outBuffer());
     }
 
     @Test void greaterThanEight() throws Exception {
@@ -47,6 +47,6 @@ class Day5Ex4Test {
 
         computer.run();
 
-        assertEquals(singletonList("1001"), computer.inBuffer());
+        assertEquals(singletonList("1001"), computer.outBuffer());
     }
 }

@@ -2,8 +2,6 @@ package com.pholser.intcode;
 
 import java.math.BigInteger;
 
-import static com.pholser.intcode.ParameterMode.*;
-
 class EqualsInstruction extends Instruction {
     EqualsInstruction(ParameterModes modes, Opcode opcode) {
         super(modes, opcode);
@@ -51,6 +49,10 @@ class EqualsInstruction extends Instruction {
                     convertToAddress(rawParameterValue));
             case IMMEDIATE:
                 return rawParameterValue;
+            case RELATIVE:
+                return computer.valueAt(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
             default:
                 throw unsupportedParameterMode(parameterIndex);
         }
@@ -63,10 +65,15 @@ class EqualsInstruction extends Instruction {
         String rawParameterValue =
             computer.valueAt(computer.pc() + parameterIndex + 1);
 
-        if (modes().at(parameterIndex) == POSITION) {
-            return rawParameterValue;
+        switch (modes().at(parameterIndex)) {
+            case POSITION:
+                return rawParameterValue;
+            case RELATIVE:
+                return String.valueOf(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
+            default:
+                throw unsupportedParameterMode(parameterIndex);
         }
-
-        throw unsupportedParameterMode(parameterIndex);
     }
 }

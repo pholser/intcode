@@ -20,6 +20,6 @@ class Day5Ex1Test {
 
         computer.run();
 
-        assertEquals(singletonList("112121"), computer.inBuffer());
+        assertEquals(singletonList("112121"), computer.outBuffer());
     }
 }

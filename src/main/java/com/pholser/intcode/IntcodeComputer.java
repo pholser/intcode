@@ -98,10 +98,6 @@ class IntcodeComputer implements Runnable {
         relativeBase += delta;
     }
 
-    Queue<String> inBuffer() {
-        return new LinkedList<>(inBuffer);
-    }
-
     Queue<String> outBuffer() {
         return new LinkedList<>(outBuffer);
     }

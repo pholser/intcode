@@ -24,6 +24,6 @@ class Day5Part1Test {
         assertEquals(
             Arrays.asList(
                 "0", "0", "0", "0", "0", "0", "0", "0", "0", "15426686"),
-            computer.inBuffer());
+            computer.outBuffer());
     }
 }

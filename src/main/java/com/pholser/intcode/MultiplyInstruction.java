@@ -50,6 +50,10 @@ class MultiplyInstruction extends Instruction {
                     convertToAddress(rawParameterValue));
             case IMMEDIATE:
                 return rawParameterValue;
+            case RELATIVE:
+                return computer.valueAt(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
             default:
                 throw unsupportedParameterMode(parameterIndex);
         }
@@ -65,6 +69,10 @@ class MultiplyInstruction extends Instruction {
         switch (modes().at(parameterIndex)) {
             case POSITION:
                 return rawParameterValue;
+            case RELATIVE:
+                return String.valueOf(
+                    computer.relativeBase()
+                        + convertToAddress(rawParameterValue));
             default:
                 throw unsupportedParameterMode(parameterIndex);
         }
